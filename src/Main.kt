@@ -57,7 +57,7 @@ class TaskManager {
         }
     }
 
-    // Function to update an existing task
+    // Function to update an existing task by its ID
     fun updateTask() {
         print("Enter Task ID to update: ")
         val id = readln().toIntOrNull() ?: return println("Invalid ID")
