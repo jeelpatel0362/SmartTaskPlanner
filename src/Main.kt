@@ -22,17 +22,20 @@ open class Task(
     }
 }
 
+// TaskManager class
 class TaskManager {
     private val tasks = mutableListOf<Task>()
     private var nextId = 1
     private val categories = arrayOf("Work", "Personal", "Study", "Fitness")
 
+    // Function to add a new task
     fun addTask() {
-        print("Enter Title:")
+        print("Enter Title: ")
         val title = readln()
-        print("Enter Description:")
+        print("Enter Description: ")
         val description = readln()
-        print("Choose Category:")
+        print("Choose Category: ")
+
         categories.forEachIndexed { index, cat -> println("$index. $cat") }
         val catIndex = readlnOrNull()?.toIntOrNull() ?: -1
 
@@ -45,6 +48,7 @@ class TaskManager {
         println("Task added.")
     }
 
+    // Function to view all tasks
     fun viewTasks() {
         if (tasks.isEmpty()) {
             println("No tasks available.")
@@ -53,35 +57,39 @@ class TaskManager {
         }
     }
 
+    // Function to update an existing task
     fun updateTask() {
-        print("Enter Task ID to update:")
+        print("Enter Task ID to update: ")
         val id = readln().toIntOrNull() ?: return println("Invalid ID")
         val task = tasks.find { it.id == id } ?: return println("Task not found.")
 
-        print("Enter new Title:")
+        print("Enter new Title: ")
         val title = readln()
-        print("Enter new Description:")
+        print("Enter new Description: ")
         val description = readln()
         println("Choose new Category:")
         categories.forEachIndexed { index, cat -> println("$index. $cat") }
         val catIndex = readln().toIntOrNull() ?: -1
         if (catIndex !in categories.indices) return println("Invalid category.")
 
-        print("Status (Pending/Completed):")
+        print("Status (Pending/Completed): ")
         val status = readlnOrNull() ?: "Pending"
 
         task.update(title, description, categories[catIndex], status)
         println("Task updated.")
     }
 
+    // Function to delete a task by its ID
     fun deleteTask() {
-        print("Enter Task ID to delete:")
+        print("Enter Task ID to delete: ")
         val id = readln().toIntOrNull() ?: return println("Invalid ID")
         val removed = tasks.removeIf { it.id == id }
+
         if (removed) println("Task deleted.") else println("Task not found.")
     }
 }
 
+// Function to start auto-saving task data every 30 seconds
 fun startAutoSave() = GlobalScope.launch {
     while (true) {
         delay(30000)
@@ -89,6 +97,7 @@ fun startAutoSave() = GlobalScope.launch {
         println("Auto-saved at $current")
     }
 }
+
 
 fun main() = runBlocking {
     val taskManager = TaskManager()
@@ -103,7 +112,8 @@ fun main() = runBlocking {
         println("5. Exit")
         println("===============================")
 
-print("Enter Your Choice : ")
+        //User's choice
+        print("Enter Your Choice : ")
         when (readln()) {
             "1" -> taskManager.addTask()
             "2" -> taskManager.viewTasks()
@@ -114,7 +124,6 @@ print("Enter Your Choice : ")
                 println("Goodbye!")
                 break
             }
-
             else -> println("Invalid option. Try again.")
         }
     }
